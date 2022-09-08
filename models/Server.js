@@ -43,11 +43,15 @@ class Server {
         //******************************************** CORS********************************************
         this.app.use(cors())
 
+        this.app.use(express.static(
+            path.resolve(__dirname, '../public')
+        ));
+
         // ***************************************Parseo del body***************************************
         this.app.use( express.json() )
 
         //************************************** Directorio publico**************************************
-        this.app.use( express.static( path.resolve( __dirname, '../public' ) ) );
+        // this.app.use( express.static( path.resolve( __dirname, '../public' ) ) );
     }
 
 
@@ -60,6 +64,10 @@ class Server {
         this.app.use('/api/users', require('../routes/users'))
 
         this.app.use('/api/upload', require('../routes/upload'))
+
+        this.app.get('*', (req, res) => res.sendFile(
+            path.join(__dirname, '../public/index.html')
+        ));
     }
 
     configSocket() {
