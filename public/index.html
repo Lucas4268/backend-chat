@@ -10,23 +10,23 @@
 
     <h1>Acceso denegado</h1>
     <script type="module">
-        import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
-      </script>
+        // import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+    </script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         
         // Conexión con el socket server
-        const socket = io('http://localhost:4055');
+        // const socket = io('http://localhost:4055');
         // const socket = io('/');
 
         
         /// Para emitir
-        socket.emit('mensaje-to-server');
+        // socket.emit('mensaje-to-server');
         
         // Para escuchar
-        socket.on('mensaje-from-server', (data) => {
+        // socket.on('mensaje-from-server', (data) => {
             // callback a ejecutar
-        });
+        // });
         
 
     </script>
