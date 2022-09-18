@@ -26,6 +26,9 @@ const UserSchema = Schema({
         type: String,
         required: false
     },
+    tokenNotification: {
+        type: String
+    },
     password: {
         type: String,
         required: true,

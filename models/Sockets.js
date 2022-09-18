@@ -1,3 +1,4 @@
+const admin = require('firebase-admin');
 const getFriendsById = require('../controllers/Sockets/getFriendsById');
 const saveMessage = require('../controllers/Sockets/saveMessage');
 const userConnect = require('../controllers/Sockets/userConnect');
@@ -7,7 +8,14 @@ const createGroup = require('../controllers/Sockets/createGroup');
 const getGroupsByUser = require('../controllers/Sockets/getGrupsByUser');
 const saveNewRequest = require('../controllers/Sockets/saveNewRequest');
 const onAcceptRequest = require('../controllers/Sockets/onAcceptrequest');
+const serviceAccount = require('../chatapp-fdaba-firebase-adminsdk-trbiz-67459b27c9.json');
+const getTokenNotification = require('../controllers/Sockets/getTokenNotification');
+const getNameById = require('../controllers/Sockets/getNameById');
 
+
+admin.initializeApp({
+    credential: admin.credential.cert( serviceAccount )
+})
 class Sockets {
 
     constructor( io ) {
@@ -68,6 +76,17 @@ class Sockets {
 
                 // guardar mensage
                 const message = await saveMessage( payload );
+
+                const { name } = await getNameById( message.from )
+                const tokenNotification = await getTokenNotification( message.to )
+
+                await admin.messaging().send({
+                    token: tokenNotification,
+                    notification: {
+                        title: name,
+                        body: message.message,
+                    }
+                })
                 // console.log({message})
                 // emitir para ambos
                 // this.io.to( payload.to ).to( payload.from ).emit('personal-message', message);
