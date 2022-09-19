@@ -80,13 +80,18 @@ class Sockets {
                 const { name } = await getNameById( message.from )
                 const tokenNotification = await getTokenNotification( message.to )
 
-                await admin.messaging().send({
-                    token: tokenNotification,
-                    notification: {
-                        title: name,
-                        body: message.message,
-                    }
-                })
+                try {
+                    await admin.messaging().send({
+                        token: tokenNotification,
+                        notification: {
+                            title: name,
+                            body: message.message,
+                        }
+                    })
+                } catch (error) {
+                    console.log('Error firebase')
+                    console.log({error})
+                }
                 // console.log({message})
                 // emitir para ambos
                 // this.io.to( payload.to ).to( payload.from ).emit('personal-message', message);
